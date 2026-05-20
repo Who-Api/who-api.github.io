@@ -52,7 +52,9 @@
             return;
         }
 
-        const cleanDomain = input.replace(/^(https?:\/\/)?(www\.)?/, '').trim().toLowerCase();
+        // FIXED STRING CLEANING METHOD CHAIN
+        const cleanDomain = input.replace(/^(https?:\/\/)?(www\.)?/, '').trim().split('/')[0].toLowerCase();
+        
         const targetUrl = `https://rdap.org{cleanDomain}`;
         const proxyUrl = `https://corsproxy.io{encodeURIComponent(targetUrl)}`;
 
@@ -81,9 +83,13 @@
             
             let registrarName = 'Unknown / Protected';
             if (registrarEntity && registrarEntity.vcardArray) {
-                const fnRow = registrarEntity.vcardArray.find(prop => prop === 'fn');
-                if (fnRow) {
-                    registrarName = Array.isArray(fnRow) ? fnRow : fnRow;
+                // Safely crawl the nested structured vcard array fields
+                const fnBlock = registrarEntity.vcardArray.find(item => item[0] === 'fn');
+                if (fnBlock && fnBlock[3]) {
+                    registrarName = fnBlock[3];
+                } else {
+                    const fnRow = registrarEntity.vcardArray.find(prop => prop === 'fn');
+                    if (fnRow) registrarName = Array.isArray(fnRow) ? fnRow[3] || fnRow : fnRow;
                 }
             }
 
