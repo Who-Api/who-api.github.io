@@ -49,17 +49,24 @@
             return;
         }
 
-        // CORRECTED: Extracts strictly the text string before any trailing slashes
-        let rawDomain = input.replace(/^(https?:\/\/)?(www\.)?/, '').trim().toLowerCase();
-        const cleanDomain = rawDomain.split('/')[0];
+        // Clean string and grab the core hostname structure
+        const cleanDomain = input.replace(/^(https?:\/\/)?(www\.)?/, '').trim().toLowerCase().split('/')[0];
         
+        // SWAPPED proxy engine routing over to the unrestricted AllOrigins engine network
         const targetUrl = `https://rdap.org{cleanDomain}`;
-        const proxyUrl = `https://corsproxy.io{encodeURIComponent(targetUrl)}`;
+        const proxyUrl = `https://allorigins.win{encodeURIComponent(targetUrl)}`;
 
         try {
             const response = await fetch(proxyUrl);
+            if (!response.ok) throw new Error('Proxy communication break.');
+
+            const proxyPayload = await response.json();
             
-            if (response.status === 404) {
+            // AllOrigins wraps original query data strings inside a core '.contents' field
+            if (!proxyPayload.contents) throw new Error('Empty registry object returned.');
+            
+            // Handle registry 404 available records cleanly
+            if (proxyPayload.status && proxyPayload.status.http_code === 404) {
                 loader.style.display = 'none';
                 errorBox.innerText = `🎉 "${cleanDomain}" is unregistered and available!`;
                 errorBox.style.color = '#15803d';
@@ -69,9 +76,8 @@
                 return;
             }
 
-            if (!response.ok) throw new Error('Registry response error');
-
-            const data = await response.json();
+            const data = JSON.parse(proxyPayload.contents);
+            
             const events = data.events || [];
             const createdEvent = events.find(e => e.eventAction === 'registration');
             const expiryEvent = events.find(e => e.eventAction === 'expiration');
@@ -81,13 +87,13 @@
             
             let registrarName = 'Unknown / Protected';
             if (registrarEntity && registrarEntity.vcardArray) {
-                const properties = registrarEntity.vcardArray;
-                const fnRow = properties.find(prop => Array.isArray(prop) && prop[0] === 'fn');
-                if (fnRow) {
+                const innerProperties = registrarEntity.vcardArray;
+                const fnRow = innerProperties.find(prop => prop[0] === 'fn');
+                if (fnRow && fnRow[3]) {
                     registrarName = fnRow[3];
                 } else {
-                    const fallback = properties.find(prop => prop === 'fn');
-                    if (fallback) registrarName = fallback;
+                    const fallbackRow = innerProperties.find(prop => prop === 'fn');
+                    if (fallbackRow) registrarName = fallbackRow;
                 }
             }
 
@@ -104,7 +110,7 @@
             errorBox.style.color = '#ef4444';
             errorBox.style.background = '#fef2f2';
             errorBox.style.borderColor = '#fee2e2';
-            errorBox.innerText = 'Unable to pull database records. This domain extension may not be supported yet or the registry is temporarily down.';
+            errorBox.innerText = 'Unable to pull database records. Check your domain name spelling or retry in a few moments.';
             errorBox.style.display = 'block';
         }
     });
