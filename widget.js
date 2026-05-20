@@ -25,16 +25,13 @@
         </div>
     `;
 
-    // Automatically inject the interface into the webpage right where the script is loaded
     const currentScript = document.currentScript;
     currentScript.parentNode.insertBefore(container, currentScript);
 
-    // Add button hover styling natively
     const searchBtn = document.getElementById('whoisBtn');
     searchBtn.addEventListener('mouseover', () => searchBtn.style.background = '#1e293b');
     searchBtn.addEventListener('mouseout', () => searchBtn.style.background = '#000000');
 
-    // 3. Connect the core API query logic
     searchBtn.addEventListener('click', async () => {
         const input = document.getElementById('whoisInput').value;
         const loader = document.getElementById('whoisLoader');
@@ -52,8 +49,9 @@
             return;
         }
 
-        // FIXED STRING CLEANING METHOD CHAIN
-        const cleanDomain = input.replace(/^(https?:\/\/)?(www\.)?/, '').trim().split('/')[0].toLowerCase();
+        // FIXED STRING OPERATION SEQUENCE HERE
+        let cleanDomain = input.replace(/^(https?:\/\/)?(www\.)?/, '').trim().toLowerCase();
+        cleanDomain = cleanDomain.split('/')[0];
         
         const targetUrl = `https://rdap.org{cleanDomain}`;
         const proxyUrl = `https://corsproxy.io{encodeURIComponent(targetUrl)}`;
@@ -83,13 +81,13 @@
             
             let registrarName = 'Unknown / Protected';
             if (registrarEntity && registrarEntity.vcardArray) {
-                // Safely crawl the nested structured vcard array fields
-                const fnBlock = registrarEntity.vcardArray.find(item => item[0] === 'fn');
-                if (fnBlock && fnBlock[3]) {
-                    registrarName = fnBlock[3];
+                const innerVcard = registrarEntity.vcardArray;
+                const fnRow = innerVcard.find(prop => prop[0] === 'fn');
+                if (fnRow && fnRow[3]) {
+                    registrarName = fnRow[3];
                 } else {
-                    const fnRow = registrarEntity.vcardArray.find(prop => prop === 'fn');
-                    if (fnRow) registrarName = Array.isArray(fnRow) ? fnRow[3] || fnRow : fnRow;
+                    const fallbackRow = innerVcard.find(prop => prop === 'fn');
+                    if (fallbackRow) registrarName = fallbackRow;
                 }
             }
 
