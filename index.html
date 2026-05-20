@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WhoApi - Free Limitless Domain WHOIS Lookup Engine</title>
     
-    <!-- FAVICON CONFIGURATION -->
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="apple-touch-icon" href="logo.png">
 
     <style>
-        /* Base page layout with your custom background color and font */
         html, body {
             margin: 0;
             padding: 0;
@@ -27,7 +25,6 @@
             box-sizing: border-box;
         }
         
-        /* Logo Image Panel Styles */
         .logo-container {
             margin-top: 10px;
             margin-bottom: 15px;
@@ -36,15 +33,12 @@
             max-width: 160px;
             height: auto;
             border-radius: 12px;
-            /* Box shadow completely removed to keep the image flat */
         }
 
         .main-title { font-size: 36px; font-weight: 800; margin-top: 10px; margin-bottom: 8px; color: #000000; font-family: "Khmer Sangam MN", sans-serif; }
         .subtitle { color: #000000; font-size: 16px; margin-bottom: 25px; max-width: 630px; margin-left: auto; margin-right: auto; line-height: 1.6; font-weight: 500; font-family: "Khmer Sangam MN", sans-serif; }
-        
         .tool-wrapper { display: flex; justify-content: center; margin-bottom: 40px; }
         
-        /* White embed information card to stand out against the background */
         .embed-box { 
             background: white; 
             border: 1px solid rgba(0,0,0,0.05); 
@@ -86,29 +80,25 @@
 </head>
 <body>
 
-    <!-- BRAND LOGO HEADER -->
     <div class="logo-container">
         <img src="logo.png" alt="WhoApi Logo" class="brand-logo">
     </div>
 
-    <!-- REBRANDED TITLES & EXPANDED API DESCRIPTIONS -->
     <h1 class="main-title">WhoApi</h1>
     <p class="subtitle">
         A completely free and limitless WHOIS API engine paired with an open-source search embed. WhoApi queries real-time official global registries directly from the client's network layer. By removing the middleman, it provides a truly restriction-free lookup service with zero rate limits, zero registration keys, and zero cost.
     </p>
 
-    <!-- 1. LIVE ENGINE INSTANCE WIDGET LOADING CONTAINER -->
     <div class="tool-wrapper">
         <script src="widget.js" defer></script>
     </div>
 
-    <!-- 2. EMBED INFORMATION BOX -->
     <div class="embed-box">
         <h3 class="embed-title">Want to deploy this limitless free WHOIS API widget?</h3>
         <p class="embed-desc">You can easily embed our functional domain checker search bar onto your own blog, software portfolio, or website builder platform. Copy the single line of code snippet underneath and paste it into any custom HTML block element editor.</p>
         
         <div class="code-container">
-            <span class="code-text" id="snippetCode">&lt;script src="https://YOUR_GITHUB_USERNAME.github.io/YOUR_REPO_NAME/widget.js" defer&gt;&lt;/script&gt;</span>
+            <span class="code-text" id="snippetCode">&lt;script src="https://github.io" defer&gt;&lt;/script&gt;</span>
             <button class="copy-btn" onclick="copySnippet()">Copy Code</button>
         </div>
     </div>
@@ -117,21 +107,16 @@
         function copySnippet() {
             const codeSpan = document.getElementById('snippetCode');
             const rawText = codeSpan.innerText || codeSpan.textContent;
-            
             navigator.clipboard.writeText(rawText).then(() => {
                 const btn = document.querySelector('.copy-btn');
                 btn.innerText = 'Copied!';
                 btn.style.backgroundColor = '#16a34a';
-                
                 setTimeout(() => {
                     btn.innerText = 'Copy Code';
                     btn.style.backgroundColor = '#3b82f6';
                 }, 2000);
-            }).catch(() => {
-                alert('Select the text manually to copy.');
             });
         }
     </script>
-
 </body>
 </html>
