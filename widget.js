@@ -49,23 +49,20 @@
             return;
         }
 
-        // Clean string and grab the core hostname structure
-        const cleanDomain = input.replace(/^(https?:\/\/)?(www\.)?/, '').trim().toLowerCase().split('/')[0];
+        // Clean the domain name input cleanly
+        let cleanDomain = input.replace(/^(https?:\/\/)?(www\.)?/, '').trim().toLowerCase().split('/')[0];
         
-        // SWAPPED proxy engine routing over to the unrestricted AllOrigins engine network
+        // This is the new, working network connection link
         const targetUrl = `https://rdap.org{cleanDomain}`;
         const proxyUrl = `https://allorigins.win{encodeURIComponent(targetUrl)}`;
 
         try {
             const response = await fetch(proxyUrl);
-            if (!response.ok) throw new Error('Proxy communication break.');
-
             const proxyPayload = await response.json();
             
-            // AllOrigins wraps original query data strings inside a core '.contents' field
-            if (!proxyPayload.contents) throw new Error('Empty registry object returned.');
+            if (!proxyPayload.contents) throw new Error('Data empty.');
             
-            // Handle registry 404 available records cleanly
+            // Check if domain is available (Registry returns a 404 error)
             if (proxyPayload.status && proxyPayload.status.http_code === 404) {
                 loader.style.display = 'none';
                 errorBox.innerText = `🎉 "${cleanDomain}" is unregistered and available!`;
@@ -77,7 +74,6 @@
             }
 
             const data = JSON.parse(proxyPayload.contents);
-            
             const events = data.events || [];
             const createdEvent = events.find(e => e.eventAction === 'registration');
             const expiryEvent = events.find(e => e.eventAction === 'expiration');
@@ -87,14 +83,8 @@
             
             let registrarName = 'Unknown / Protected';
             if (registrarEntity && registrarEntity.vcardArray) {
-                const innerProperties = registrarEntity.vcardArray;
-                const fnRow = innerProperties.find(prop => prop[0] === 'fn');
-                if (fnRow && fnRow[3]) {
-                    registrarName = fnRow[3];
-                } else {
-                    const fallbackRow = innerProperties.find(prop => prop === 'fn');
-                    if (fallbackRow) registrarName = fallbackRow;
-                }
+                const fnRow = registrarEntity.vcardArray.find(prop => prop[0] === 'fn');
+                if (fnRow) registrarName = fnRow[3];
             }
 
             document.getElementById('outDomain').innerText = cleanDomain;
@@ -110,7 +100,7 @@
             errorBox.style.color = '#ef4444';
             errorBox.style.background = '#fef2f2';
             errorBox.style.borderColor = '#fee2e2';
-            errorBox.innerText = 'Unable to pull database records. Check your domain name spelling or retry in a few moments.';
+            errorBox.innerText = 'Unable to pull database records. Please try a different domain extension (like .com).';
             errorBox.style.display = 'block';
         }
     });
