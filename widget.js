@@ -49,9 +49,9 @@
             return;
         }
 
-        // FIXED STRING OPERATION SEQUENCE HERE
+        // STRIPS PROTOCOLS AND EXTRACTS ONLY THE FIRST TEXT VALUE BEFORE ANY DASHES/SLASHES
         let cleanDomain = input.replace(/^(https?:\/\/)?(www\.)?/, '').trim().toLowerCase();
-        cleanDomain = cleanDomain.split('/')[0];
+        cleanDomain = cleanDomain.split('/')[0]; 
         
         const targetUrl = `https://rdap.org{cleanDomain}`;
         const proxyUrl = `https://corsproxy.io{encodeURIComponent(targetUrl)}`;
@@ -80,14 +80,11 @@
             const registrarEntity = entities.find(e => e.roles && e.roles.includes('registrar'));
             
             let registrarName = 'Unknown / Protected';
-            if (registrarEntity && registrarEntity.vcardArray) {
-                const innerVcard = registrarEntity.vcardArray;
-                const fnRow = innerVcard.find(prop => prop[0] === 'fn');
-                if (fnRow && fnRow[3]) {
-                    registrarName = fnRow[3];
-                } else {
-                    const fallbackRow = innerVcard.find(prop => prop === 'fn');
-                    if (fallbackRow) registrarName = fallbackRow;
+            if (registrarEntity && registrarEntity.vcardArray && registrarEntity.vcardArray[1]) {
+                const vcardProperties = registrarEntity.vcardArray[1];
+                const fnProperty = vcardProperties.find(prop => prop[0] === 'fn');
+                if (fnProperty && fnProperty[3]) {
+                    registrarName = fnProperty[3];
                 }
             }
 
