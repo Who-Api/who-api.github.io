@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhoApi - 免费无限域名 WHOIS 查询引擎</title>
+    
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background-color: #FFAF00;
+        }
+        body { 
+            font-family: "Khmer Sangam MN", -apple-system, sans-serif; 
+            color: #000000; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 40px 20px; 
+            text-align: center; 
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .logo-container {
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+        .brand-logo {
+            max-width: 160px;
+            height: auto;
+            border-radius: 12px;
+        }
+
+        .main-title { font-size: 36px; font-weight: 800; margin-top: 10px; margin-bottom: 8px; color: #000000; }
+        .subtitle { color: #000000; font-size: 16px; margin-bottom: 25px; max-width: 630px; margin-left: auto; margin-right: auto; line-height: 1.6; font-weight: 500; }
+        .tool-wrapper { display: flex; justify-content: center; margin-bottom: 40px; }
+        
+        .embed-box { 
+            background: white; 
+            border: 1px solid rgba(0,0,0,0.05); 
+            border-radius: 12px; 
+            padding: 25px; 
+            text-align: left; 
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+        }
+        .embed-title { font-size: 18px; font-weight: 600; margin-top: 0; margin-bottom: 10px; color: #000000; }
+        .embed-desc { color: #475569; font-size: 14px; margin-bottom: 15px; line-height: 1.5; }
+        
+        .code-container { 
+            display: flex; 
+            background: #0f172a; 
+            color: #38bdf8; 
+            padding: 12px 16px; 
+            border-radius: 6px; 
+            font-family: monospace; 
+            align-items: center; 
+            justify-content: space-between; 
+            font-size: 14px;
+        }
+        .code-text { word-break: break-all; margin-right: 15px; user-select: all; }
+        .copy-btn { 
+            background: #3b82f6; 
+            color: white; 
+            border: none; 
+            padding: 6px 12px; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-family: "Khmer Sangam MN", sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+        .copy-btn:hover { background-color: #2563eb; }
+    </style>
+</head>
+<body>
+
+    <div class="logo-container">
+        <img src="logo.png" alt="WhoApi Logo" class="brand-logo">
+    </div>
+
+    <h1 class="main-title">WhoApi</h1>
+    <p class="subtitle">
+        一个完全免费且无限制的 WHOIS API 引擎，配备开源搜索嵌入式工具。WhoApi 直接从客户端网络层查询实时官方全球注册表。通过 [...]
+    </p>
+
+    <div class="tool-wrapper">
+        <script src="widget.js" defer></script>
+    </div>
+
+    <div class="embed-box">
+        <h3 class="embed-title">想要部署这个无限免费的 WHOIS API 小部件？</h3>
+        <p class="embed-desc">您可以轻松将我们的功能域检查器搜索栏嵌入到您自己的博客、软件组合或网站构建器平台中。复制单行代码片段 [...]
+        
+        <div class="code-container">
+            <span class="code-text" id="snippetCode">&lt;script src="https://github.io" defer&gt;&lt;/script&gt;</span>
+            <button class="copy-btn" onclick="copySnippet()">复制代码</button>
+        </div>
+    </div>
+
+    <script>
+        function copySnippet() {
+            const codeSpan = document.getElementById('snippetCode');
+            const rawText = codeSpan.innerText || codeSpan.textContent;
+            navigator.clipboard.writeText(rawText).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.innerText = '已复制！';
+                btn.style.backgroundColor = '#16a34a';
+                setTimeout(() => {
+                    btn.innerText = '复制代码';
+                    btn.style.backgroundColor = '#3b82f6';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
