@@ -25,32 +25,6 @@
             box-sizing: border-box;
             position: relative;
         }
-        
-        /* Styled Language Switcher Container */
-        .language-switcher-container {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 20px;
-        }
-        
-        /* Custom styling for the translation select box */
-        #translate select {
-            background-color: #ffffff;
-            color: #000000;
-            border: 2px solid #000000;
-            padding: 8px 14px;
-            font-family: "Khmer Sangam MN", -apple-system, sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            border-radius: 8px;
-            cursor: pointer;
-            outline: none;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            transition: transform 0.1s ease;
-        }
-        #translate select:hover {
-            transform: translateY(-1px);
-        }
 
         .logo-container {
             margin-top: 10px;
@@ -107,18 +81,13 @@
 </head>
 <body>
 
-    <!-- Language Selector Widget Container -->
-    <div class="language-switcher-container ignore">
-        <div id="translate"></div>
-    </div>
-
     <div class="logo-container">
         <img src="logo.png" alt="WhoApi Logo" class="brand-logo">
     </div>
 
     <h1 class="main-title">WhoApi</h1>
     <p class="subtitle">
-        A completely free and limitless WHOIS API engine paired with an open-source search embed. WhoApi queries real-time official global registries directly from the client's network layer. By removing the middleman, it provides a truly restriction-free lookup service with zero rate limits, zero registration keys, and zero cost.
+        A completely free and limitless WHOIS API engine paired with an open-source search embed. WhoApi queries real-time official global registries directly from the client's network layer. By [...]
     </p>
 
     <div class="tool-wrapper">
@@ -127,24 +96,13 @@
 
     <div class="embed-box">
         <h3 class="embed-title">Want to deploy this limitless free WHOIS API widget?</h3>
-        <p class="embed-desc">You can easily embed our functional domain checker search bar onto your own blog, software portfolio, or website builder platform. Copy the single line of code snippet underneath and paste it into any custom HTML block element editor.</p>
+        <p class="embed-desc">You can easily embed our functional domain checker search bar onto your own blog, software portfolio, or website builder platform. Copy the single line of code snipp[...]
         
-        <!-- Code text container protected from translating -->
-        <div class="code-container ignore">
+        <div class="code-container">
             <span class="code-text" id="snippetCode">&lt;script src="https://github.io" defer&gt;&lt;/script&gt;</span>
             <button class="copy-btn" onclick="copySnippet()">Copy Code</button>
         </div>
     </div>
-
-    <!-- NEW USER OPTION: jsDelivr CDN Script -->
-    <script src="https://cdn.jsdelivr.net/npm/translate-js@1.3.0/dist/translate.min.js"></script>
-    <script>
-        // Setup configuration parameters for the jsDelivr build package
-        translate.language.setLocal('en'); 
-        translate.selectLanguageTag.show = true; 
-        translate.ignore.class.push('ignore'); 
-        translate.execute();
-    </script>
 
     <script>
         function copySnippet() {
