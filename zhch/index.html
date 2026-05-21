@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WhoApi - 免费无限域名 WHOIS 查询引擎</title>
     
-    <link rel="icon" type="image/png" href="logo.png">
-    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="icon" type="image/png" href="../logo.png">
+    <link rel="apple-touch-icon" href="../logo.png">
 
     <style>
         html, body {
@@ -24,6 +24,37 @@
             text-align: center; 
             box-sizing: border-box;
             position: relative;
+        }
+
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .lang-btn {
+            background: white;
+            border: 2px solid #000000;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: "Khmer Sangam MN", -apple-system, sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: #000000;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .lang-btn:hover {
+            background: #000000;
+            color: #FFAF00;
+            transform: translateY(-2px);
+        }
+        .lang-btn.active {
+            background: #000000;
+            color: #FFAF00;
         }
 
         .logo-container {
@@ -81,6 +112,11 @@
 </head>
 <body>
 
+    <div class="language-switcher">
+        <a href="/" class="lang-btn">English</a>
+        <button class="lang-btn active">中文</button>
+    </div>
+
     <div class="logo-container">
         <img src="logo.png" alt="WhoApi Logo" class="brand-logo">
     </div>
@@ -97,7 +133,7 @@
     <div class="embed-box">
         <h3 class="embed-title">想要部署这个无限免费的 WHOIS API 小部件？</h3>
         <p class="embed-desc">您可以轻松将我们的功能域检查器搜索栏嵌入到您自己的博客、软件组合或网站构建器平台中。复制单行代码片段 [...]
-        
+         
         <div class="code-container">
             <span class="code-text" id="snippetCode">&lt;script src="https://who-api.github.io" defer&gt;&lt;/script&gt;</span>
             <button class="copy-btn" onclick="copySnippet()">复制代码</button>
