@@ -23,8 +23,28 @@
             padding: 40px 20px; 
             text-align: center; 
             box-sizing: border-box;
+            position: relative;
         }
         
+        /* Language switcher custom styles */
+        .language-switcher-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+        #translate select {
+            background: #ffffff;
+            color: #000000;
+            border: 2px solid #000000;
+            padding: 6px 12px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            outline: none;
+        }
+
         .logo-container {
             margin-top: 10px;
             margin-bottom: 15px;
@@ -80,6 +100,11 @@
 </head>
 <body>
 
+    <!-- Language Selector Widget -->
+    <div class="language-switcher-container">
+        <div id="translate"></div>
+    </div>
+
     <div class="logo-container">
         <img src="logo.png" alt="WhoApi Logo" class="brand-logo">
     </div>
@@ -97,12 +122,22 @@
         <h3 class="embed-title">Want to deploy this limitless free WHOIS API widget?</h3>
         <p class="embed-desc">You can easily embed our functional domain checker search bar onto your own blog, software portfolio, or website builder platform. Copy the single line of code snippet underneath and paste it into any custom HTML block element editor.</p>
         
-        <div class="code-container">
-            <!-- RESTORED ACCURATE USER INSTANCE EMBED LINK -->
+        <!-- Added "ignore" class so code text doesn't get translated to Chinese -->
+        <div class="code-container ignore">
             <span class="code-text" id="snippetCode">&lt;script src="https://whoapi.github.io" defer&gt;&lt;/script&gt;</span>
             <button class="copy-btn" onclick="copySnippet()">Copy Code</button>
         </div>
     </div>
+
+    <!-- Translation Core Scripts -->
+    <script src="https://cloudflare.com"></script>
+    <script>
+        translate.language.setLocal('en'); 
+        translate.language.setTarget('zh-CN'); 
+        translate.selectLanguageTag.show = true; // Renders the clean dropdown box
+        translate.ignore.class.push('ignore'); // Tells engine to keep code snippet in English
+        translate.execute();
+    </script>
 
     <script>
         function copySnippet() {
